@@ -23,7 +23,6 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -34,7 +33,7 @@ import android.widget.Toast;
 
 import com.yaphets.dock.DockApplication;
 import com.yaphets.dock.R;
-import com.yaphets.dock.model.UserInfo;
+import com.yaphets.dock.model.entity.UserInfo;
 import com.yaphets.dock.model.validation.LoginValidation;
 import com.yaphets.dock.model.validation.Result;
 import com.yaphets.dock.model.validation.Validator;
@@ -303,7 +302,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Result doInBackground(Void... params) {
-            UserInfo info = new UserInfo(mEmail, mPassword);
+            UserInfo info = UserInfo.getInstance();
+            info.setEmail(mEmail);
+            info.setPassword(mPassword);
 
             /*try {
                 // Simulate network access.

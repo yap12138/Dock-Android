@@ -2,6 +2,7 @@ package com.yaphets.dock.model.validation;
 
 import android.util.Log;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 
 import com.yaphets.dock.database.dao.MySqlDAO;
 import com.yaphets.dock.model.Accessible;
-import com.yaphets.dock.model.UserInfo;
+import com.yaphets.dock.model.entity.UserInfo;
 
 public class LoginValidation implements Validator {
 	private static final String TAG = "LoginValidation";
@@ -35,14 +36,19 @@ public class LoginValidation implements Validator {
 
 		try {
 			con = MySqlDAO.getConnection();
-			String sql = "SELECT password FROM user WHERE email=?";
+			String sql = "SELECT email,password,nickname,thumb FROM user WHERE email=?";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, info.getEmail());
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				String passwd = rs.getString(1);
+				String passwd = rs.getString("password");
 				if (passwd.equals(info.getPassword())) {
 					rst.setCode(1);
+					info.setNickname(rs.getString("nickname"));
+					Blob thumb = rs.getBlob("thumb");
+					if (thumb != null && thumb.length() > 0) {
+						info.setThumb(thumb.getBytes(1, (int) thumb.length()));
+					}
 				} else {
 					rst.setCode(-2);	//incorrect password
 				}

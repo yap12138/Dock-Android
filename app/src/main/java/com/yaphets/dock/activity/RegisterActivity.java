@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.yaphets.dock.R;
-import com.yaphets.dock.model.UserInfo;
+import com.yaphets.dock.model.entity.UserInfo;
 import com.yaphets.dock.model.validation.RegisterValidation;
 import com.yaphets.dock.model.validation.Result;
 import com.yaphets.dock.model.validation.Validator;
@@ -102,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         @Override
         protected Result doInBackground(Void... voids) {
-            UserInfo info = new UserInfo(mEmail, mPasswd, mNickname);
+            UserInfo info = UserInfo.createInstance(mEmail, mPasswd, mNickname);
 
             return REGISTER_VALIDATION.isValid(info);
         }

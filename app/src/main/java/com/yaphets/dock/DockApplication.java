@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.yaphets.dock.model.entity.UserInfo;
+
 import java.util.HashMap;
 
 public class DockApplication extends Application {

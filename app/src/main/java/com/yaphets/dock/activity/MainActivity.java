@@ -1,7 +1,6 @@
 package com.yaphets.dock.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -23,6 +22,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.yaphets.dock.DockApplication;
 import com.yaphets.dock.R;
+import com.yaphets.dock.model.entity.UserInfo;
 import com.yaphets.dock.ui.fragment.BaseFragment;
 import com.yaphets.dock.ui.fragment.FragmentFactory;
 import com.yaphets.dock.ui.view.MyViewPager;
@@ -99,7 +99,11 @@ public class MainActivity extends AppCompatActivity {
         _headerView = navView.getHeaderView(0);
         CircleImageView vThumb = _headerView.findViewById(R.id.nav_thumb);
         TextView vNickname = _headerView.findViewById(R.id.nav_nickname);
-        TextView vDesc = _headerView.findViewById(R.id.nav_description);
+        TextView vEmail = _headerView.findViewById(R.id.nav_email);
+        UserInfo info = UserInfo.getInstance();
+        vThumb.setImageBitmap(info.getThumbBitmap());
+        vNickname.setText(info.getNickname());
+        vEmail.setText(info.getEmail());
 
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -107,15 +111,12 @@ public class MainActivity extends AppCompatActivity {
                 //TODO 处理菜单点击逻辑
                 switch (item.getItemId()) {
                     case R.id.nav_individualData:
-                        /*Intent intent = new Intent(MainActivity.this, IndividualActivity.class);
-                        startActivityForResult(intent, CODE_MODIFY_DATA);*/
+                        Intent intent = new Intent(MainActivity.this, IndividualActivity.class);
+                        startActivityForResult(intent, CODE_MODIFY_DATA);
                         break;
                     case R.id.nav_commonSetting:
                         break;
                     case R.id.nav_about:
-                        break;
-                    case R.id.nav_logout:
-                        //onLogout();
                         break;
                     default:
                 }
@@ -206,6 +207,22 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case CODE_MODIFY_DATA:
+                    UserInfo info = UserInfo.getInstance();
+                    CircleImageView vThumb = _headerView.findViewById(R.id.nav_thumb);
+                    TextView vNickname = _headerView.findViewById(R.id.nav_nickname);
+                    vThumb.setImageBitmap(info.getThumbBitmap());
+                    vNickname.setText(info.getNickname());
+                    break;
+                default:
+            }
+        }
+    }
 
     private class MainPagerAdapter extends FragmentPagerAdapter {
 

@@ -18,11 +18,11 @@
         android:id="@+id/nav_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/nav_description"
+        android:layout_above="@+id/nav_email"
         android:textColor="#FFF"
         android:textSize="20sp"/>
     <TextView
-        android:id="@+id/nav_description"
+        android:id="@+id/nav_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

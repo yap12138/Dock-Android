@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import com.yaphets.dock.database.dao.MySqlDAO;
 import com.yaphets.dock.model.Accessible;
-import com.yaphets.dock.model.UserInfo;
+import com.yaphets.dock.model.entity.UserInfo;
 
 public class RegisterValidation implements Validator {
 	private static final String TAG = "RegisterValidation";
