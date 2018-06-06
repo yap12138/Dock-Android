@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_individualData"
+            android:icon="@drawable/nav_ic_individual"
+            android:title="个人资料"/>
+        <item
+            android:id="@+id/nav_commonSetting"
+            android:icon="@drawable/nav_ic_settings"
+            android:title="通用设置"/>
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/nav_ic_about"
+            android:title="关于"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/nav_ic_logout"
+            android:title="退出登录"/>
+    </group>
+
+</menu>
