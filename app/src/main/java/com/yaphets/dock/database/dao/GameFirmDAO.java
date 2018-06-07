@@ -24,11 +24,24 @@ public class GameFirmDAO implements DataAccessObject<Game_Firm> {
 
     @Override
     public List<Game_Firm> findByProperty(String where, Object... values) {
-        return null;
+        List<Game_Firm> rst = null;
+        try {
+            rst = GenericDAO.findAll(Game_Firm.class,where,values);
+        } catch (SQLException e) {
+            Log.e(TAG, "findByProperty: " + e.getMessage(), e);
+        }
+
+        return rst;
     }
 
     @Override
     public Game_Firm findById(int... ids) {
+        Game_Firm gf = null;
+        try {
+            gf = GenericDAO.findAll(Game_Firm.class,"id=?",ids[0]).get(0);
+        } catch (SQLException e) {
+            Log.e(TAG, "findById: " + e.getMessage(), e);
+        }
         return null;
     }
 }
