@@ -18,5 +18,4 @@
     <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat.Light">
         <item name="overlapAnchor">false</item>
     </style>
-
 </resources>
