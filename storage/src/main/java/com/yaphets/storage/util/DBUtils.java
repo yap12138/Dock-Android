@@ -142,10 +142,12 @@ public class DBUtils {
 					ManyToOne ann;
 					if ((ann=field.getAnnotation(ManyToOne.class)) != null) {
 						Object key = rs.getObject(ann.name());
-						Class<?> cls = field.getType();
-						Method mtd = cls.getMethod("createInstance", int.class);
-						Object referOne = mtd.invoke(null, key);
-						field.set(oj, referOne);
+						if (key != null) {
+							Class<?> cls = field.getType();
+							Method mtd = cls.getMethod("createInstance", int.class);
+							Object referOne = mtd.invoke(null, key);
+							field.set(oj, referOne);
+						}
 					} else if(field.getAnnotation(OneToMany.class) != null){
 						PersistSet<?> set = new PersistSet<>(oj, field);
 						field.set(oj, set);
