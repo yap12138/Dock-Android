@@ -4,13 +4,9 @@ import android.util.Log;
 
 import com.yaphets.dock.database.DataAccessObject;
 import com.yaphets.dock.model.entity.Category;
+import com.yaphets.storage.database.dao.GenericDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDAO implements DataAccessObject<Category> {
@@ -18,7 +14,7 @@ public class CategoryDAO implements DataAccessObject<Category> {
 
     @Override
     public List<Category> findAll() {
-        Connection con = null;
+        /*Connection con = null;
         Statement state = null;
         List<Category> rst = new ArrayList<>();
         try {
@@ -38,6 +34,12 @@ public class CategoryDAO implements DataAccessObject<Category> {
             Log.e(TAG, "findAll: " + e.getMessage(), e);
         } finally {
             MySqlDAO.release(con, state);
+        }*/
+        List<Category> rst = null;
+        try {
+            rst = GenericDAO.findAll(Category.class);
+        } catch (SQLException e) {
+            Log.e(TAG, "findAll: " + e.getMessage(), e);
         }
 
         return rst;

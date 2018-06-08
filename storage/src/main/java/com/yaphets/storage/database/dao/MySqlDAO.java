@@ -1,6 +1,6 @@
-package com.yaphets.dock.database.dao;
+package com.yaphets.storage.database.dao;
 
-import android.support.annotation.Nullable;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,8 +12,7 @@ public class MySqlDAO {
 	private static final String url = "jdbc:mysql://120.78.139.85:3306/game_distribution_platform?useSSL=false";
 	private static final String userName = "hogason";
 	private static final String password = "ddd123456";
-	
-	@Nullable
+
 	public static Connection getConnection() {
 		try {
 			Class.forName(driverName);

@@ -1,9 +1,9 @@
-package com.yaphets.dock.database.dao;
+package com.yaphets.storage.database.dao;
 
-import com.yaphets.dock.model.annotation.Id;
-import com.yaphets.dock.model.annotation.ManyToOne;
-import com.yaphets.dock.model.annotation.OneToMany;
-import com.yaphets.dock.util.DBUtils;
+import com.yaphets.storage.annotation.Id;
+import com.yaphets.storage.annotation.ManyToOne;
+import com.yaphets.storage.annotation.OneToMany;
+import com.yaphets.storage.util.DBUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -256,14 +256,15 @@ public class GenericDAO {
 		
 		StringBuilder builder = new StringBuilder("UPDATE " + clazz.getSimpleName().toLowerCase() + " SET ");
 		try {
-			int mark = -1;
+			int[] mark = {-1,-1,-1,-1};
+			int j = 0;
 			for (int i = 0; i < fields.length; i++) {
 				Field field = fields[i];
 				field.setAccessible(true);
 				//判断是否为@Id字段，即primary key字段
 				Id id = field.getAnnotation(Id.class);
 				if (id != null) {
-					mark = i;	//记录Id字段
+					mark[j++] = i;	//记录Id字段
 					continue;
 				}
 				if (passField(obj, field)) {
@@ -274,9 +275,15 @@ public class GenericDAO {
 			}
 			builder.deleteCharAt(builder.lastIndexOf(","));
 			//设置where从句 , 如果mark为-1就让他index out of range奔溃吧...懒得处理了
+			j = 0;
 			builder.append("WHERE ");
-			Field idCol = fields[mark];
+			Field idCol = fields[mark[j++]];
 			builder.append(idCol.getName() + "=?");
+			while(mark[j++] != -1) {
+				builder.append(" and ");
+				idCol = fields[mark[j++]];
+				builder.append(idCol.getName() + "=?");
+			}
 			fieldList.add(idCol);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
@@ -371,7 +378,8 @@ public class GenericDAO {
 		}
 		return list;
 	}
-	
+
+	@Deprecated
 	@SuppressWarnings("unchecked")
 	public static <T> List<T> findAll(Class<T> clazz, Object owner, String where, Object...params) throws SQLException {
 		List<T> list = new ArrayList<>();

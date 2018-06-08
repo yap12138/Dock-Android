@@ -1,8 +1,10 @@
-package com.yaphets.dock.util;
+package com.yaphets.storage.util;
 
-import com.yaphets.dock.model.annotation.ManyToOne;
-import com.yaphets.dock.model.annotation.OneToMany;
+import com.yaphets.storage.annotation.ManyToOne;
+import com.yaphets.storage.annotation.OneToMany;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -108,8 +110,9 @@ public class DBUtils {
 				ps.setBoolean(i, (boolean) object);
 			} else if (clazz.equals(Byte.class)) {
 				ps.setByte(i, (byte) object);
-			} else if (clazz.equals(Blob.class)) {
-				ps.setBlob(i, (Blob) object);
+			} else if (clazz.equals(byte[].class)) {	//字节数组存放Blob类型
+				InputStream in = new ByteArrayInputStream((byte[])object);
+				ps.setBlob(i, in);
 			}
 		}
 	}
@@ -140,7 +143,7 @@ public class DBUtils {
 					if ((ann=field.getAnnotation(ManyToOne.class)) != null) {
 						Object key = rs.getObject(ann.name());
 						Class<?> cls = field.getType();
-						Method mtd = cls.getMethod("createInstance", long.class);
+						Method mtd = cls.getMethod("createInstance", int.class);
 						Object referOne = mtd.invoke(null, key);
 						field.set(oj, referOne);
 					} else if(field.getAnnotation(OneToMany.class) != null){
@@ -149,7 +152,16 @@ public class DBUtils {
 					} else {
 						if (passField(field))
 							continue;
-						field.set(oj, rs.getObject(field.getName()));
+
+						Object tv = rs.getObject(field.getName());
+						if (tv != null) {
+							if (tv instanceof Blob) {	//处理二进制
+								field.set(oj, ((Blob)tv).getBytes(1, (int)((Blob)tv).length()));
+							} else {
+								field.set(oj, tv);
+							}
+							//field.set(oj, tv);
+						}
 					}
 				}
 				return oj;
@@ -170,7 +182,8 @@ public class DBUtils {
 		
 		return null;
 	}
-	
+
+	@Deprecated
 	public static Object createInstance(ResultSet rs, Class<?> clazz, Object owner) throws SQLException {
 		try {
 			Constructor<?> cst = clazz.getConstructor();
@@ -230,8 +243,9 @@ public class DBUtils {
 			ps.setBoolean(idx, field.getBoolean(obj));
 		} else if (clazz.equals(byte.class)) {
 			ps.setByte(idx, field.getByte(obj));
-		} else if (clazz.equals(Blob.class)) {
-			ps.setBlob(idx, (Blob) field.get(obj));
+		} else if (clazz.equals(byte[].class)) {	//字节数组存放Blob类型
+			InputStream in = new ByteArrayInputStream((byte[])field.get(obj));
+			ps.setBlob(idx, in);
 		}
 	}
 	

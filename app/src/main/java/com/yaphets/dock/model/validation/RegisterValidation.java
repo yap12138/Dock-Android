@@ -2,13 +2,13 @@ package com.yaphets.dock.model.validation;
 
 import android.util.Log;
 
+import com.yaphets.dock.model.Accessible;
+import com.yaphets.dock.model.entity.UserInfo;
+import com.yaphets.storage.database.dao.MySqlDAO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import com.yaphets.dock.database.dao.MySqlDAO;
-import com.yaphets.dock.model.Accessible;
-import com.yaphets.dock.model.entity.UserInfo;
 
 public class RegisterValidation implements Validator {
 	private static final String TAG = "RegisterValidation";

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.yaphets.dock.database.DataAccessObject;
 import com.yaphets.dock.model.entity.Game_Firm;
+import com.yaphets.storage.database.dao.GenericDAO;
 
 import java.sql.SQLException;
 import java.util.List;

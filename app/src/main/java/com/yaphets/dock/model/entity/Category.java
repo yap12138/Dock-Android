@@ -1,6 +1,7 @@
 package com.yaphets.dock.model.entity;
 
-import com.yaphets.dock.model.annotation.Id;
+
+import com.yaphets.storage.annotation.Id;
 
 public class Category {
     @Id
@@ -56,4 +57,21 @@ public class Category {
     public String toString() {
         return chinese_name.substring(0, chinese_name.length() - 2);
     }
+
+
+    /*private static Map<Integer, Category> mBaseCategories = new HashMap<>();
+
+    public static Category createInstance(int permarykey) throws SQLException {
+        Category ctg = mBaseCategories.get(permarykey);
+
+        if (ctg == null) {
+            ctg = new Category();
+            ctg.setId(permarykey);
+            ctg = GenericDAO.find(ctg);
+
+            mBaseCategories.put(permarykey, ctg);
+        }
+
+        return ctg;
+    }*/
 }

@@ -1,11 +1,12 @@
-package com.yaphets.dock.model.annotation;
-
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+package com.yaphets.storage.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Deprecated
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface ManyToOne {

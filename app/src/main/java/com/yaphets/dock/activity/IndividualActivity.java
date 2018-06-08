@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -13,7 +14,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +24,9 @@ import android.widget.Toast;
 
 import com.yaphets.dock.DockApplication;
 import com.yaphets.dock.R;
-import com.yaphets.dock.database.dao.MySqlDAO;
 import com.yaphets.dock.model.entity.UserInfo;
 import com.yaphets.dock.util.PhotoUtils;
+import com.yaphets.storage.database.dao.MySqlDAO;
 
 import java.io.File;
 import java.io.FileInputStream;

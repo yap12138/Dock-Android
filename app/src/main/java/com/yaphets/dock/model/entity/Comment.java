@@ -1,6 +1,7 @@
 package com.yaphets.dock.model.entity;
 
-import com.yaphets.dock.model.annotation.Id;
+
+import com.yaphets.storage.annotation.Id;
 
 public class Comment {
     @Id

@@ -1,8 +1,8 @@
 package com.yaphets.dock.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.yaphets.dock.DockApplication;
 import com.yaphets.dock.R;
-import com.yaphets.dock.database.dao.MySqlDAO;
 import com.yaphets.dock.ui.view.TitleLayout;
+import com.yaphets.storage.database.dao.MySqlDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

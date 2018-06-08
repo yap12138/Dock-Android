@@ -1,7 +1,8 @@
-package com.yaphets.dock.util;
+package com.yaphets.storage.util;
 
-import com.yaphets.dock.database.dao.GenericDAO;
-import com.yaphets.dock.model.annotation.OneToMany;
+
+import com.yaphets.storage.annotation.OneToMany;
+import com.yaphets.storage.database.dao.GenericDAO;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
