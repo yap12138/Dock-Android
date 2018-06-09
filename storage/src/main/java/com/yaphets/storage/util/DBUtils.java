@@ -1,5 +1,6 @@
 package com.yaphets.storage.util;
 
+import com.yaphets.storage.annotation.Column;
 import com.yaphets.storage.annotation.ManyToOne;
 import com.yaphets.storage.annotation.OneToMany;
 
@@ -185,6 +186,19 @@ public class DBUtils {
 		return null;
 	}
 
+    /**
+     * 处理@OneToMany时用到的辅助方法，外部不使用
+     * @param rs
+     * ResultSet对象
+     * @param clazz
+     * 构造对象类型
+     * @param owner
+     * 关系One对应的对象
+     * @return
+     * 如果ResultSet不为空，则返回新对象，否则返回null
+     * @throws SQLException
+     * 操纵ResultSet可能发生的SQL异常
+     */
 	@Deprecated
 	public static Object createInstance(ResultSet rs, Class<?> clazz, Object owner) throws SQLException {
 		try {
@@ -223,7 +237,20 @@ public class DBUtils {
 		
 		return null;
 	}
-	
+
+    /**
+     * 工具方法，充填PreparedStatement
+     * @param ps
+     * PreparedStatement对象
+     * @param obj
+     * Field的所属Class实例
+     * @param idx
+     * 占位符索引
+     * @param field
+     * Field对象
+     * @param <T>
+     * 泛型参数
+     */
 	private static <T> void initPreStatementKit(PreparedStatement ps, T obj, int idx, Field field) throws IllegalArgumentException, IllegalAccessException, SQLException {
 		Class<?> clazz = field.getType();
 		
@@ -258,6 +285,7 @@ public class DBUtils {
 	 * @return
 	 */
 	private static final boolean passField(Field field) {
-		return Modifier.isStatic(field.getModifiers());
+		Column col = field.getAnnotation(Column.class);
+		return Modifier.isStatic(field.getModifiers()) || (col != null && col.ignore());
 	}
 }

@@ -1,5 +1,6 @@
 package com.yaphets.storage.database.dao;
 
+import com.yaphets.storage.annotation.Column;
 import com.yaphets.storage.annotation.Id;
 import com.yaphets.storage.annotation.ManyToOne;
 import com.yaphets.storage.annotation.OneToMany;
@@ -292,7 +293,7 @@ public class GenericDAO {
 	}
 	
 	/**
-	 * 	判断是否字段未赋值,字段为静态字段 或者是字段为一对多的set, 是则返回true
+	 * 	判断是否字段未赋值,字段为静态字段 或者是字段为一对多的set, 以及是ignore为true，是则返回true
 	 * @param obj
 	 * @param field
 	 * @return
@@ -303,8 +304,10 @@ public class GenericDAO {
 		Object d = DBUtils.getDefault(field.getType());
 		Object f = field.get(obj);
 		OneToMany otm = field.getAnnotation(OneToMany.class);
+		Column col = field.getAnnotation(Column.class);
 		return d == null && f == null || f.equals(d) 
-				|| Modifier.isStatic(field.getModifiers()) || otm != null;
+				|| Modifier.isStatic(field.getModifiers()) || otm != null
+				|| (col != null && col.ignore());
 	}
 
 	/**
