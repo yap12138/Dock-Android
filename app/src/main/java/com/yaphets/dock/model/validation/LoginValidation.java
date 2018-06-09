@@ -36,7 +36,7 @@ public class LoginValidation implements Validator {
 
 		try {
 			con = MySqlDAO.getConnection();
-			String sql = "SELECT email,password,nickname,thumb FROM user WHERE email=?";
+			String sql = "SELECT uid,email,password,nickname,thumb FROM user WHERE email=?";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, info.getEmail());
 			ResultSet rs = ps.executeQuery();
@@ -44,6 +44,7 @@ public class LoginValidation implements Validator {
 				String passwd = rs.getString("password");
 				if (passwd.equals(info.getPassword())) {
 					rst.setCode(1);
+					info.setUid(rs.getInt("uid"));
 					info.setNickname(rs.getString("nickname"));
 					Blob thumb = rs.getBlob("thumb");
 					if (thumb != null && thumb.length() > 0) {

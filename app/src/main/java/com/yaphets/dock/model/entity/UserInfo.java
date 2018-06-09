@@ -1,17 +1,14 @@
 package com.yaphets.dock.model.entity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 
-import com.yaphets.dock.DockApplication;
-import com.yaphets.dock.R;
 import com.yaphets.dock.model.Accessible;
-import com.yaphets.dock.util.PhotoUtils;
 
 public class UserInfo implements Accessible {
 
     private static UserInfo mUserInfo;
+
+    private int uid;
 
 	private String email;
 	private String password;
@@ -19,8 +16,6 @@ public class UserInfo implements Accessible {
 	private String nickname;
 
 	private byte[] thumb;
-
-	private Bitmap thumbBitmap;
 
 	private UserInfo() {
 
@@ -36,8 +31,9 @@ public class UserInfo implements Accessible {
 		this.nickname = nickname;
 	}
 
-	private UserInfo(String email, String password, String nickname, byte[] thumb) {
+	private UserInfo(int uid, String email, String password, String nickname, byte[] thumb) {
 		this(email, password, nickname);
+		this.uid = uid;
 		this.thumb = thumb;
 	}
 
@@ -64,6 +60,14 @@ public class UserInfo implements Accessible {
     public static UserInfo createInstance(String email, String password, String nickname) {
 	    return new UserInfo(email, password, nickname);
     }
+
+	public int getUid() {
+		return uid;
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
 
 	public String getEmail() {
 		return email;
@@ -95,21 +99,5 @@ public class UserInfo implements Accessible {
 
 	public void setThumb(byte[] thumb) {
 		this.thumb = thumb;
-	}
-
-	public Bitmap getThumbBitmap() {
-		if (thumbBitmap == null) {
-			if (thumb == null || thumb.length == 0) {
-				this.thumbBitmap = BitmapFactory.decodeResource(DockApplication.getContext().getResources(), R.drawable.default_thumb);
-			} else {
-				this.thumbBitmap = PhotoUtils.getBitmap(thumb);
-			}
-		}
-		return thumbBitmap;
-	}
-
-	public void setThumbBitmap(Bitmap bitmap) {
-    	this.thumbBitmap = bitmap;
-    	this.thumb = PhotoUtils.getBytes(bitmap);
 	}
 }

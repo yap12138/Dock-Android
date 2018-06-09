@@ -34,6 +34,7 @@
         <activity
             android:name=".activity.IndividualActivity"
             android:label="个人信息" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.yaphets.dock.activity.IndividualActivity.provider"
@@ -43,7 +44,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <activity android:name=".activity.EditBaseActivity" />
+        <activity
+            android:name=".activity.GameDetailActivity"
+            android:theme="@style/AppTheme.GameDetailTheme" />
     </application>
 
 </manifest>

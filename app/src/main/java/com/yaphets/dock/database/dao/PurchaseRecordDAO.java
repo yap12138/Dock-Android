@@ -3,13 +3,14 @@ package com.yaphets.dock.database.dao;
 import android.util.Log;
 
 import com.yaphets.dock.database.DataAccessObject;
+import com.yaphets.dock.database.DataManipulationObject;
 import com.yaphets.dock.model.entity.Purchase_Record;
 import com.yaphets.storage.database.dao.GenericDAO;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class PurchaseRecordDAO implements DataAccessObject<Purchase_Record>{
+public class PurchaseRecordDAO implements DataAccessObject<Purchase_Record>, DataManipulationObject<Purchase_Record> {
     private static final String TAG = "PurchaseRecordDAO";
 
     @Override
@@ -43,5 +44,31 @@ public class PurchaseRecordDAO implements DataAccessObject<Purchase_Record>{
             Log.e(TAG, "findById: " + e.getMessage(), e);
         }
         return pr;
+    }
+
+    @Override
+    public boolean insert(Purchase_Record Transient) {
+        int nums = 0;
+        try {
+            nums = GenericDAO.insert(Transient);
+        } catch (SQLException e) {
+            Log.e(TAG, "insert: " + e.getMessage(), e);
+        }
+        return nums > 0;
+    }
+
+    @Override
+    public boolean delete(Purchase_Record persistent) {
+        return false;
+    }
+
+    @Override
+    public boolean update(Purchase_Record persistent) {
+        return false;
+    }
+
+    @Override
+    public int updateAll(String where, Object... values) {
+        return 0;
     }
 }

@@ -2,6 +2,11 @@ package com.yaphets.dock.model.entity;
 
 
 import com.yaphets.storage.annotation.Id;
+import com.yaphets.storage.annotation.ManyToOne;
+
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Comment {
     @Id
@@ -10,6 +15,10 @@ public class Comment {
     private int game_id;
     private String content;
     private float score;
+    private Timestamp time;
+
+    @ManyToOne(name = "user_id", mappedBy = "uid")
+    private User user;
 
     public Comment() {
 
@@ -53,4 +62,27 @@ public class Comment {
     public void setScore(float score) {
         this.score = score;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
+    /**
+     * 登陆玩家的评论记录
+     * key = game_id
+     * value = record
+     */
+    public static Map<Integer, Comment> Comment = new HashMap<>();
 }

@@ -2,8 +2,11 @@ package com.yaphets.dock.model.entity;
 
 
 import com.yaphets.storage.annotation.Id;
+import com.yaphets.storage.annotation.ManyToOne;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Purchase_Record {
     @Id
@@ -11,6 +14,9 @@ public class Purchase_Record {
     @Id
     private int game_id;
     private Timestamp date;
+
+    @ManyToOne(name = "game_id", mappedBy = "id")
+    private Game game;
 
     public Purchase_Record() {
 
@@ -45,4 +51,19 @@ public class Purchase_Record {
     public void setDate(Timestamp date) {
         this.date = date;
     }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    /**
+     * 登陆玩家的购买记录
+     * key = game_id
+     * value = record
+     */
+    public static Map<Integer, Purchase_Record> PurchaseRecord = new HashMap<>();
 }

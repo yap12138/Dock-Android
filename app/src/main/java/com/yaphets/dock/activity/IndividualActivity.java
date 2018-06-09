@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.yaphets.dock.DockApplication;
 import com.yaphets.dock.R;
 import com.yaphets.dock.model.entity.UserInfo;
@@ -66,7 +67,7 @@ public class IndividualActivity extends AppCompatActivity implements View.OnClic
 
         UserInfo info = UserInfo.getInstance();
         ImageView iv_thumb = _root_layout.findViewById(R.id.ia_iv_thumb);
-        iv_thumb.setImageBitmap(info.getThumbBitmap());
+        Glide.with(this).load(info.getThumb()).into(iv_thumb);
         TextView tv_nickname = _root_layout.findViewById(R.id.ia_tv_nickname);
         tv_nickname.setText(info.getNickname());
 
@@ -192,7 +193,7 @@ public class IndividualActivity extends AppCompatActivity implements View.OnClic
         if (image != null) {
             ImageView iv_thumb = _root_layout.findViewById(R.id.ia_iv_thumb);
             iv_thumb.setImageBitmap(image);
-            UserInfo.getInstance().setThumbBitmap(image);
+            UserInfo.getInstance().setThumb(PhotoUtils.getBytes(image));
         } else {
             Toast.makeText(this, "fail to get image", Toast.LENGTH_SHORT).show();
         }

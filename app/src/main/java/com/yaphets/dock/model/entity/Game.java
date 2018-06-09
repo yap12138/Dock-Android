@@ -1,11 +1,19 @@
 package com.yaphets.dock.model.entity;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.yaphets.storage.annotation.Id;
+import com.yaphets.storage.annotation.ManyToOne;
+import com.yaphets.storage.database.dao.GenericDAO;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Game {
+public class Game implements Parcelable {
     @Id
     private int id;
     private String name;
@@ -17,6 +25,9 @@ public class Game {
     private Timestamp issue_date;
     private int purchase_times;
     private float score;
+
+    @ManyToOne(name = "info_id", mappedBy = "id")
+    private Game_Info info;
 
     public Game() {
 
@@ -35,6 +46,32 @@ public class Game {
         this.purchase_times = purchase_times;
         this.score = score;
     }
+
+    protected Game(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        description = in.readString();
+        version = in.readFloat();
+        category_id = in.readInt();
+        firm_id = in.readInt();
+        price = in.readFloat();
+        issue_date = (Timestamp) in.readSerializable();
+        purchase_times = in.readInt();
+        score = in.readFloat();
+        info = in.readParcelable(Game_Info.class.getClassLoader());
+    }
+
+    public static final Creator<Game> CREATOR = new Creator<Game>() {
+        @Override
+        public Game createFromParcel(Parcel in) {
+            return new Game(in);
+        }
+
+        @Override
+        public Game[] newArray(int size) {
+            return new Game[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -116,6 +153,14 @@ public class Game {
         this.score = score;
     }
 
+    public Game_Info getInfo() {
+        return info;
+    }
+
+    public void setInfo(Game_Info info) {
+        this.info = info;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Game)) {
@@ -123,5 +168,41 @@ public class Game {
         }
         Game tmp = (Game) obj;
         return this.id == tmp.id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeFloat(version);
+        dest.writeInt(category_id);
+        dest.writeInt(firm_id);
+        dest.writeFloat(price);
+        dest.writeSerializable(issue_date);
+        dest.writeInt(purchase_times);
+        dest.writeFloat(score);
+        dest.writeParcelable(info, flags);
+    }
+
+    private static Map<Integer, Game> mBaseGames = new HashMap<>();
+
+    public static Game createInstance(int permarykey) throws SQLException {
+        Game game = mBaseGames.get(permarykey);
+
+        if (game == null) {
+            game = new Game();
+            game.setId(permarykey);
+            game = GenericDAO.find(game);
+
+            mBaseGames.put(permarykey, game);
+        }
+
+        return game;
     }
 }

@@ -3,6 +3,9 @@ package com.yaphets.dock.model.entity;
 
 import com.yaphets.storage.annotation.Id;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Game_Firm {
     @Id
     private int id;
@@ -18,6 +21,8 @@ public class Game_Firm {
         this.name = name;
         this.description = description;
     }
+
+    public static Map<Integer, Game_Firm> GameFirm = new HashMap<>();
 
     public int getId() {
         return id;

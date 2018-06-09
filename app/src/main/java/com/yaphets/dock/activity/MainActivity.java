@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.bumptech.glide.Glide;
 import com.yaphets.dock.DockApplication;
 import com.yaphets.dock.R;
 import com.yaphets.dock.model.entity.UserInfo;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int CODE_MODIFY_DATA = 1;
 
-    private String[] mTilte = {"首页", "排行榜", "我的游戏"};
+    private String[] mTilte = {"发现", "排行榜", "我的游戏"};
     private int[] mIcon = {R.drawable.tab_home, R.drawable.tab_rank, R.drawable.tab_mygames};
 
     private ViewPager mViewPager;
@@ -101,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
         TextView vNickname = _headerView.findViewById(R.id.nav_nickname);
         TextView vEmail = _headerView.findViewById(R.id.nav_email);
         UserInfo info = UserInfo.getInstance();
-        vThumb.setImageBitmap(info.getThumbBitmap());
+        Glide.with(this).load(info.getThumb()).into(vThumb);
+        //vThumb.setImageBitmap(info.getThumbBitmap());
         vNickname.setText(info.getNickname());
         vEmail.setText(info.getEmail());
 
@@ -216,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                     UserInfo info = UserInfo.getInstance();
                     CircleImageView vThumb = _headerView.findViewById(R.id.nav_thumb);
                     TextView vNickname = _headerView.findViewById(R.id.nav_nickname);
-                    vThumb.setImageBitmap(info.getThumbBitmap());
+                    Glide.with(this).load(info.getThumb()).into(vThumb);
                     vNickname.setText(info.getNickname());
                     break;
                 default:

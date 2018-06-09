@@ -3,6 +3,9 @@ package com.yaphets.dock.model.entity;
 
 import com.yaphets.storage.annotation.Id;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Category {
     @Id
     private int id;
@@ -58,6 +61,7 @@ public class Category {
         return chinese_name.substring(0, chinese_name.length() - 2);
     }
 
+    public static Map<Integer, Category> Categories = new HashMap<>();
 
     /*private static Map<Integer, Category> mBaseCategories = new HashMap<>();
 

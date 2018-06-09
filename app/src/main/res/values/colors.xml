@@ -5,4 +5,8 @@
     <color name="colorAccent">#fdcb6e</color>
 
     <color name="selectedTab">@color/colorAccent</color>
+    <color name="lynxWhite">#f5f6fa</color>
+    <color name="pensive">#dcdde1</color>
+    <color name="clearChill">#1e90ff</color>
+    <color name="ufoGreen">#2ed573</color>
 </resources>

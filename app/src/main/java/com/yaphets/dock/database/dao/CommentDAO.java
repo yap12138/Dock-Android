@@ -3,13 +3,14 @@ package com.yaphets.dock.database.dao;
 import android.util.Log;
 
 import com.yaphets.dock.database.DataAccessObject;
+import com.yaphets.dock.database.DataManipulationObject;
 import com.yaphets.dock.model.entity.Comment;
 import com.yaphets.storage.database.dao.GenericDAO;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class CommentDAO implements DataAccessObject<Comment> {
+public class CommentDAO implements DataAccessObject<Comment>, DataManipulationObject<Comment> {
     private static final String TAG = "CommentDAO";
 
     @Override
@@ -43,5 +44,31 @@ public class CommentDAO implements DataAccessObject<Comment> {
             Log.e(TAG, "findById: " + e.getMessage(), e);
         }
         return cmt;
+    }
+
+    @Override
+    public boolean insert(Comment Transient) {
+        int nums = 0;
+        try {
+            nums = GenericDAO.insert(Transient);
+        } catch (SQLException e) {
+            Log.e(TAG, "insert: " + e.getMessage(), e);
+        }
+        return nums > 0;
+    }
+
+    @Override
+    public boolean delete(Comment persistent) {
+        return false;
+    }
+
+    @Override
+    public boolean update(Comment persistent) {
+        return false;
+    }
+
+    @Override
+    public int updateAll(String where, Object... values) {
+        return 0;
     }
 }
