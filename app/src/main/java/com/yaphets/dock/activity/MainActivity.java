@@ -146,11 +146,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabSelected(int position) {
-                /*if (position == 0) {
-                    mMsgNotifyBadge.setNumber(0);
-                    if (!mMsgNotifyBadge.isHidden())
-                        mMsgNotifyBadge.hide();
-                }*/
                 if (mViewPager.getCurrentItem() != position) {
                     mViewPager.setCurrentItem(position, false);
                 }
@@ -169,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setOffscreenPageLimit(2);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            String[] titles = {"Dock", "排行榜", "我的游戏"};
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -179,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 if (mBottomNavigationBar.getCurrentSelectedPosition() != position) {
                     mBottomNavigationBar.selectTab(position);
                 }
+                getSupportActionBar().setTitle(titles[position]);
             }
 
             @Override

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -17,59 +18,79 @@ import com.yaphets.dock.model.entity.Game;
 import java.util.List;
 import java.util.Locale;
 
-public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
+public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
 
-    private List<Game> mList;
+    private List<Game> mGames;
     private Context mContext;
 
-    public GameAdapter(Context context, List<Game> list) {
+    public RankAdapter(Context context, List<Game> games) {
         this.mContext = context;
-        this.mList =list;
+        this.mGames = games;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_game, parent, false);
-        return new ViewHolder(view);
+        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_game_rank, parent, false);
+        return new ViewHolder(root);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Game game = mList.get(position);
-        holder.name.setText(game.getName());
-        holder.desc.setText(game.getDescription());
-        holder.price.setText(String.format(Locale.CHINA, "%.1f￥",game.getPrice()));
-        holder.pic.setImageBitmap(null);
-        if (game.getInfo() != null && game.getInfo().getCover() != null) {
-            Glide.with(mContext).load(game.getInfo().getCover()).into(holder.pic);
+        Game game = mGames.get(position);
+        holder.rank.setText(String.valueOf(position+1));
+        holder.resetRankColor();
+        if (position < 3) {
+            holder.rank.setTextColor(mContext.getColor(R.color.selectedTab));
         }
+        holder.name.setText(game.getName());
+        holder.price.setText(String.format(Locale.CHINA, "%.1f￥",game.getPrice()));
+        if (game.getInfo() != null && game.getInfo().getCover() != null) {
+            Glide.with(mContext).load(game.getInfo().getCover()).into(holder.cover);
+        }
+        holder.score.setRating(game.getScore());
+
         holder.intent.putExtra("game", game);
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return mGames.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView pic;
+    public void changeDataSet(List<Game> games) {
+        mGames = games;
+        notifyDataSetChanged();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView rank;
+        ImageView cover;
         TextView name;
-        TextView desc;
+        RatingBar score;
         TextView price;
+
+        private int defaultTextColor;
 
         Intent intent;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            pic = itemView.findViewById(R.id.img_cover);
+            rank = itemView.findViewById(R.id.tv_rank);
+            cover = itemView.findViewById(R.id.img_cover);
             name = itemView.findViewById(R.id.tv_name);
-            desc = itemView.findViewById(R.id.tv_description);
+            score = itemView.findViewById(R.id.rb_score);
             price = itemView.findViewById(R.id.tv_price);
+
+            defaultTextColor = rank.getCurrentTextColor();
 
             intent = new Intent(mContext, GameDetailActivity.class);
             itemView.setOnClickListener(v -> {
                 mContext.startActivity(intent);
             });
+        }
+
+        void resetRankColor() {
+            rank.setTextColor(defaultTextColor);
         }
     }
 }

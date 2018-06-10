@@ -1,14 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.RankFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/layout_group"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@color/lynxWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <RadioGroup
+            android:id="@+id/rg_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbtn_download_rank"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/radiobutton_background"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="下载榜"
+                android:textColor="@color/radiobutton_textcolor" />
+
+            <RadioButton
+                android:id="@+id/rbtn_score_rank"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/radiobutton_background"
+                android:button="@null"
+                android:gravity="center"
+                android:text="评分榜"
+                android:textColor="@color/radiobutton_textcolor" />
+
+            <RadioButton
+                android:id="@+id/rbtn_price_rank"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/radiobutton_background"
+                android:button="@null"
+                android:gravity="center"
+                android:text="售价榜"
+                android:textColor="@color/radiobutton_textcolor" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_rank"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_group" />
+</android.support.constraint.ConstraintLayout>
