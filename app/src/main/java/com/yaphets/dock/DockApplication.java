@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.yaphets.dock.model.entity.UserInfo;
+import com.yaphets.dock.util.NotifyTask;
 
 import java.util.HashMap;
 
@@ -18,6 +18,8 @@ public class DockApplication extends Application {
     public static String _password;
 
     private static HashMap<String, Object> _attribute = new HashMap<>();
+
+    private static NotifyTask _notifyTask;
 
     @Override
     public void onCreate() {
@@ -40,6 +42,16 @@ public class DockApplication extends Application {
 
     public static void setAttribute(String key, Object value) {
         _attribute.put(key, value);
+    }
+
+    public static void setNotifyTask(NotifyTask task) {
+        _notifyTask = task;
+    }
+
+    public static void notifyDataChange() {
+        if (_notifyTask != null) {
+            _notifyTask.notifyDataChange();
+        }
     }
 
     public SharedPreferences getLoginShared() {

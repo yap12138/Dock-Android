@@ -22,6 +22,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.yaphets.dock.DockApplication;
 import com.yaphets.dock.R;
 import com.yaphets.dock.database.dao.PurchaseRecordDAO;
 import com.yaphets.dock.model.entity.Category;
@@ -181,6 +182,8 @@ public class GameDetailActivity extends AppCompatActivity {
                 record.setGame(mGame);
                 //保存起来
                 Purchase_Record.PurchaseRecord.put(record.getGame_id(), record);
+                //update my game fragment
+                DockApplication.notifyDataChange();
                 //FAB
                 mIsOwn = true;
                 mActionBtn.setImageResource(R.drawable.game_download);

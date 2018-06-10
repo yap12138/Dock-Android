@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.yaphets.dock.DockApplication;
 import com.yaphets.dock.R;
 import com.yaphets.dock.adapter.CommentAdapter;
 import com.yaphets.dock.database.dao.CommentDAO;
@@ -102,6 +103,7 @@ public class GameCommentFragment extends BaseFragment {
         mCommentEditor = root.findViewById(R.id.et_comment);
         mSubmitBtn = root.findViewById(R.id.btn_comment_submit);
         mCommentList = root.findViewById(R.id.rcv_comment);
+
         return root;
     }
 
@@ -150,6 +152,8 @@ public class GameCommentFragment extends BaseFragment {
                 mCommentList.getAdapter().notifyDataSetChanged();
                 //加入全局comment list
                 Comment.Comment.put(comment.getGame_id(), comment);
+                //update my game fragment
+                DockApplication.notifyDataChange();
             } else {
                 Toast.makeText(mContext, R.string.toast_failed_comment, Toast.LENGTH_SHORT).show();
             }
