@@ -33,6 +33,9 @@
     <string name="toast_success_comment">评论成功</string>
     <string name="toast_failed_comment">评论失败</string>
 
+    <string name="toast_find_incorrect_name">游戏名不能为空</string>
+    <string name="toast_find_failded">未查找到此游戏</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="large_text">

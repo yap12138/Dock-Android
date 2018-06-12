@@ -1,6 +1,8 @@
 package com.yaphets.dock.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,11 +12,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,10 +29,15 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
 import com.yaphets.dock.DockApplication;
 import com.yaphets.dock.R;
+import com.yaphets.dock.database.dao.GameDAO;
+import com.yaphets.dock.model.entity.Game;
 import com.yaphets.dock.model.entity.UserInfo;
 import com.yaphets.dock.ui.fragment.BaseFragment;
 import com.yaphets.dock.ui.fragment.FragmentFactory;
 import com.yaphets.dock.ui.view.MyViewPager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -196,7 +207,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
             case R.id.search:
-                Toast.makeText(this, "搜索功能敬请期待", Toast.LENGTH_SHORT).show();
+                showSearchDialog();
+                //Toast.makeText(this, "搜索功能敬请期待", Toast.LENGTH_SHORT).show();
                 break;
 
             case android.R.id.home:
@@ -245,6 +257,62 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             return FragmentFactory.FRAGMENT_COUNT;
+        }
+    }
+
+    private void showSearchDialog() {
+        /*@setView 装入一个EditView*/
+        final EditText editText = new EditText(MainActivity.this);
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        AlertDialog.Builder inputDialog = new AlertDialog.Builder(MainActivity.this);
+
+        inputDialog.setTitle("输入查找的游戏名称");
+        inputDialog.setMessage("").setView(editText);
+
+        inputDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //validate name
+                String gameName = editText.getText().toString();
+                if (TextUtils.isEmpty(gameName)) {
+                    Toast.makeText(MainActivity.this, R.string.toast_find_incorrect_name, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                new SearchGameTask().execute(gameName);
+            }
+        });
+        inputDialog.setNegativeButton("取消", null);
+        inputDialog.show();
+    }
+
+    class SearchGameTask extends AsyncTask<String, Void, List<Game>> {
+
+        String title;
+
+        @Override
+        protected List<Game> doInBackground(String... names) {
+            title = names[0];
+            GameDAO gameDAO = new GameDAO();
+            List<Game> games = gameDAO.searchGame(title);
+            return games;
+        }
+
+        @Override
+        protected void onPostExecute(List<Game> games) {
+            if (games.size() == 0) {
+                Toast.makeText(MainActivity.this, R.string.toast_find_failded, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+            /*Parcelable[] list = games.toArray(new Game[0]);
+            intent.putExtra("games", list);*/
+            ArrayList<Game> gameList = (ArrayList<Game>) games;
+            intent.putParcelableArrayListExtra("games", gameList);
+            intent.putExtra("title", title);
+            startActivity(intent);
         }
     }
 }

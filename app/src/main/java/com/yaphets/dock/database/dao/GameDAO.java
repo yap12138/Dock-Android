@@ -57,7 +57,7 @@ public class GameDAO implements DataAccessObject<Game>  {
 
     public List<Game> findRankDownload() {
         String sql = "SELECT id FROM game_rank_download";
-        List<Integer> rankList = findRank(sql);
+        List<Integer> rankList = findIds(sql);
         List<Game> rst = new ArrayList<>();
         try {
             Game game = null;
@@ -73,7 +73,7 @@ public class GameDAO implements DataAccessObject<Game>  {
 
     public List<Game> findRankScore() {
         String sql = "SELECT id FROM game_rank_score";
-        List<Integer> rankList = findRank(sql);
+        List<Integer> rankList = findIds(sql);
         List<Game> rst = new ArrayList<>();
         try {
             Game game = null;
@@ -89,7 +89,7 @@ public class GameDAO implements DataAccessObject<Game>  {
 
     public List<Game> findRankPrice() {
         String sql = "SELECT id FROM game_rank_price";
-        List<Integer> rankList = findRank(sql);
+        List<Integer> rankList = findIds(sql);
         List<Game> rst = new ArrayList<>();
         try {
             Game game = null;
@@ -110,7 +110,7 @@ public class GameDAO implements DataAccessObject<Game>  {
      * @return
      * 排序的游戏id列表
      */
-    private List<Integer> findRank(String sql) {
+    private List<Integer> findIds(String sql) {
         List<Integer> rst = new ArrayList<>();
         Connection con = null;
         Statement stm = null;
@@ -131,6 +131,26 @@ public class GameDAO implements DataAccessObject<Game>  {
             Log.e(TAG, "isValid: ", e);
         } finally {
             MySqlDAO.release(con, stm);
+        }
+        return rst;
+    }
+
+    public List<Game> searchGame(String key) {
+        key = "\'%" + key + "%\'";
+        String sql = "select g.id " +
+                "from game g " +
+                "left join game_firm gf on(g.firm_id = gf.id) " +
+                "where g.name like " + key + " or gf.name like " + key;
+        List<Integer> ids = findIds(sql);
+        List<Game> rst = new ArrayList<>();
+        try {
+            Game game = null;
+            for (Integer id : ids) {
+                game = Game.createInstance(id);
+                rst.add(game);
+            }
+        } catch (SQLException e) {
+            Log.e(TAG, "Search: " + e.getMessage(), e);
         }
         return rst;
     }

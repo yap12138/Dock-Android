@@ -50,7 +50,9 @@
         <activity
             android:name=".activity.GameDetailActivity"
             android:theme="@style/AppTheme.GameDetailTheme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activity.SearchActivity" />
     </application>
 
 </manifest>
